@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Todo"
+             x:Class="Todo.MainPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" 
+        iOS="0, 20, 0, 0" 
+        Android ="0, 0, 0, 0"
+        WinPhone ="0, 0, 0, 0"  />
+    </ContentPage.Padding>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ActivityIndicator Grid.RowSpan="2"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False"
+                           IsEnabled="True"
+                           x:Name="syncIndicator"/>
+        <StackLayout Grid.Row="0" BackgroundColor="#5ABAFF" Padding="10,30,10,5">
+            <Label TextColor="#555555" Text="Azure App Service" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
+                    <Entry x:Name="newItemName" Placeholder="Item name" WidthRequest="200"/>
+                    <Button x:Name="btnAdd" Text="Add" HeightRequest="30" Clicked="Button_Clicked"/>
+                    <Button x:Name="btnBuscar" Command="{Binding LoadTodoCommand}"  HeightRequest="30" Text="Buscar" 
+                            BackgroundColor="#01579B" TextColor="#FFFF"/>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+        <ListView x:Name="todoList" 
+                  IsPullToRefreshEnabled="true"
+                  IsRefreshing="{Binding Loading}" 
+                  ItemsSource="{Binding Todos}" 
+                  Grid.Row="1" 
+                  Margin="15,15,0,0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
+                            <StackLayout Padding="5,0,0,0" VerticalOptions="StartAndExpand" Orientation="Vertical">
+                                <Label Text="{Binding Nome}"/>
+                                <Label Text="{Binding Id}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
+</ContentPage>
